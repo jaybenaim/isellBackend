@@ -24,7 +24,6 @@ var whitelist = [
 var corsOptions = {
   origin: true,
   methods: ["GET", "POST", "HEAD", "OPTIONS", "DELETE"],
-
   credentials: true
 };
 app.use(cors());
