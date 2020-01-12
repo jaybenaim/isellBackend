@@ -11,7 +11,7 @@ app.get("/", async (req, res) => {
   res.send("HOME");
 });
 
-app.get("/api/charge", async (req, res) => {
+app.get("/api/", async (req, res) => {
   res.send("API HOME");
 });
 
@@ -51,4 +51,4 @@ app.post("/api/charge", cors(corsOptions), async (req, res, next) => {
     res.status(500).end();
   }
 });
-app.listen(9000, () => console.log("Listening on port 9000"));
+app.listen(process.env.PORT || 5000);
