@@ -34,7 +34,7 @@ app.post("/api/charge", cors(), async (req, res, next) => {
     // const data = JSON.parse(req.body);
     // const data = JSON.parse(req.headers.data);
     let { total, token } = req.headers;
-    console.log(total);
+    console.log(req.body);
     // let { token, subTotal } = data;
     total = Math.floor(total * 100);
     let { status } = await stripe.charges.create({
