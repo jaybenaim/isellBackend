@@ -23,11 +23,12 @@ var whitelist = [
 
 var corsOptions = {
   origin: true,
-  methods: ["POST"],
+  methods: ["GET", "POST", "HEAD", "OPTIONS", "DELETE"],
+
   credentials: true
 };
-app.options("/api/charge", cors(corsOptions));
-app.post("/api/charge", cors(corsOptions), async (req, res, next) => {
+app.use(cors());
+app.post("/api/charge", cors(), async (req, res, next) => {
   try {
     // const headers = JSON.parse(req.headers);
     // const { token, total } = headers;
