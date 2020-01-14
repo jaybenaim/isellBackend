@@ -1,16 +1,26 @@
-const express = require("express");
-const app = express();
-const path = require("path");
-const stripe = require("stripe")("sk_test_59y42s9amXyOuAPudcbNBta500g0JElmda");
-const bodyParser = require("body-parser");
-const cors = require("cors");
+const express = require("express"),
+  app = express(),
+  path = require("path"),
+  stripe = require("stripe")("sk_test_59y42s9amXyOuAPudcbNBta500g0JElmda"),
+  bodyParser = require("body-parser"),
+  cors = require("cors"),
+  http = require("http"),
+  mongoose = require("mongoose"),
+  passport = require("passport"),
+  LocalStrategy = require("passport-local");
 
+app.use(cors());
 app.use(
   bodyParser.urlencoded({
     extended: true
   })
 );
-app.use(bodyParser.json());
+
+// mongoose
+mongoose.connect(process.env.DB_CONNECTION);
+
+// routes
+require("./routes")(app);
 
 app.get("/", async (req, res) => {
   res.send("HOME");
@@ -20,7 +30,6 @@ app.get("/api/", async (req, res) => {
   res.send("API HOME");
 });
 
-app.use(cors());
 app.post("/api/charge", cors(), async (req, res) => {
   try {
     let { total, token } = req.headers;
