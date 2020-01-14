@@ -2,13 +2,15 @@ const jwt = require("jsonwebtoken");
 const secret = process.env.SECRET;
 
 const withAuth = (req, res, next) => {
-  const token = req.body.token;
-  console.log(token);
+  const token = req.cookies.token;
+
+  console.log(req);
   if (!token) {
     res.status(401).send("Unauthorized: No token provided");
   } else {
-    jwt.verify(token, secret, (err, decoded) => {
+    jwt.verify(token, process.env.SECRET, (err, decoded) => {
       if (err) {
+        console.log(err);
         res.status(401).send("Unauthorized: Invalid token");
       } else {
         req.email = decoded.email;
