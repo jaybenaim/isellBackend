@@ -8,10 +8,9 @@ const mongoose = require("mongoose");
 const User = require("./Models/User.js");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
-const secret = "goat";
 const withAuth = require("./Middleware/auth");
 
-require("dotenv").config({ debug: process.env.DB_CONNECTION });
+require("dotenv").config({ debug: process.env.SECRET });
 mongoose.set("useCreateIndex", true);
 
 mongoose.connect(
@@ -45,7 +44,7 @@ app.get("/api/", async (req, res) => {
 app.get("/api/home", withAuth, async (req, res) => {
   res.send("API WITH AUTH");
 });
-app.get("/checkToken", withAuth, function(req, res) {
+app.get("/checkToken", function(req, res) {
   res.sendStatus(200);
 });
 
@@ -93,10 +92,10 @@ app.post("/api/authenticate", (req, res) => {
           const payload = {
             email
           };
-          const token = jwt.sign(payload, secret, {
+          const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: "1h"
           });
-          res.cookie("token", token, { httpOnly: true }).sendStatus(200);
+          res.send(token);
         }
       });
     }
