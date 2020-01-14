@@ -3,11 +3,7 @@ const express = require("express"),
   path = require("path"),
   stripe = require("stripe")("sk_test_59y42s9amXyOuAPudcbNBta500g0JElmda"),
   bodyParser = require("body-parser"),
-  cors = require("cors"),
-  http = require("http"),
-  mongoose = require("mongoose"),
-  passport = require("passport"),
-  LocalStrategy = require("passport-local");
+  cors = require("cors");
 
 app.use(cors());
 app.use(
@@ -16,14 +12,9 @@ app.use(
   })
 );
 
-// mongoose
-mongoose.connect(process.env.DB_CONNECTION);
-
-// routes
-require("./routes")(app);
-
 app.get("/", async (req, res) => {
   res.send("HOME");
+  console.log("led");
 });
 
 app.get("/api/", async (req, res) => {
