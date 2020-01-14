@@ -44,7 +44,7 @@ app.get("/api/", async (req, res) => {
 app.get("/api/home", withAuth, async (req, res) => {
   res.send("API WITH AUTH");
 });
-app.get("/checkToken", withAuth, function(req, res) {
+app.post("/checkToken", withAuth, function(req, res) {
   res.sendStatus(200);
 });
 
@@ -95,7 +95,7 @@ app.post("/api/authenticate", (req, res) => {
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: "1h"
           });
-          res.send(token);
+          res.json({ token: token });
         }
       });
     }
