@@ -44,7 +44,7 @@ app.get("/api/", async (req, res) => {
 app.get("/api/home", withAuth, async (req, res) => {
   res.send("API WITH AUTH");
 });
-app.get("/checkToken", function(req, res) {
+app.get("/checkToken", withAuth, function(req, res) {
   res.sendStatus(200);
 });
 
