@@ -1,10 +1,9 @@
 const jwt = require("jsonwebtoken");
-const secret = process.env.SECRET;
 
 const withAuth = (req, res, next) => {
   const token = req.cookies.token;
 
-  console.log(req);
+  console.log(req.cookies);
   if (!token) {
     res.status(401).send("Unauthorized: No token provided");
   } else {

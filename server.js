@@ -10,6 +10,7 @@ const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const withAuth = require("./Middleware/auth");
 
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 require("dotenv").config({ debug: process.env.SECRET });
 mongoose.set("useCreateIndex", true);
 
@@ -32,7 +33,6 @@ app.use(
 );
 app.use(bodyParser.json());
 app.use(cookieParser());
-app.use(cors());
 
 app.get("/", async (req, res) => {
   res.send("HOME");
@@ -41,7 +41,7 @@ app.get("/", async (req, res) => {
 app.get("/api/", async (req, res) => {
   res.send("API HOME");
 });
-app.post("/api/home", withAuth, async (req, res) => {
+app.get("/api/home", withAuth, async (req, res) => {
   res.send("API WITH AUTH");
 });
 
