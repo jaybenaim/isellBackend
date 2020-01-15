@@ -11,7 +11,9 @@ const cookieParser = require("cookie-parser");
 const withAuth = require("./Middleware/auth");
 
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
-require("dotenv").config({ debug: process.env.SECRET });
+require("dotenv").config({
+  debug: process.env.DB_CONNECTION
+});
 mongoose.set("useCreateIndex", true);
 
 mongoose.connect(
