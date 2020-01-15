@@ -41,8 +41,8 @@ app.get("/", async (req, res) => {
 app.get("/api/", async (req, res) => {
   res.send("API HOME");
 });
-app.get("/api/home", withAuth, async (req, res) => {
-  res.send("API WITH AUTH");
+app.get("/api/checkToken", withAuth, async (req, res) => {
+  res.status(200).send("Authorized");
 });
 
 app.post("/api/register", (req, res) => {
