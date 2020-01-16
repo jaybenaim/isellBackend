@@ -50,17 +50,17 @@ app.get("/api/checkToken", withAuth, (req, res) => {
   res.status(200).send("Authorized");
 });
 
+app.get("/api/profiles", (req, res) => {
+  Profile.find((err, profile) => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).send(profile);
+  });
+});
 app.post("/api/profiles", (req, res) => {
   const newProfile = new Profile(req.body);
   newProfile.save(err => {
     if (err) return res.status(500).send(err);
     return res.status(200).send(newProfile);
-  });
-});
-app.get("/api/profiles", (req, res) => {
-  Profile.find((err, profile) => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).send(profile);
   });
 });
 app.get("/api/profiles/:id", (req, res) => {
