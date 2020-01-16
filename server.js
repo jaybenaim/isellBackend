@@ -57,12 +57,23 @@ app.get("/api/profiles", (req, res) => {
   });
 });
 app.post("/api/profiles", (req, res) => {
-  const newProfile = new Profile(req.body);
-  newProfile.save(err => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).send(newProfile);
+  Profile.findOrCreate(req.body, (err, profile) => {
+    if (err) {
+      const results = {
+        err,
+        status: "failed"
+      };
+      return res.status(500).send(results);
+    } else {
+      const results = {
+        profile,
+        status: "success"
+      };
+      return res.status(200).send(results);
+    }
   });
 });
+
 app.get("/api/profiles/:id", (req, res) => {
   Profile.findOne({ _id: req.params.id }, (err, profile) => {
     if (err) return res.status(500).send(err);

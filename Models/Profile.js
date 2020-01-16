@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const findOrCreate = require("mongoose-findorcreate");
 const Schema = mongoose.Schema;
 
 const provenceArr = [
@@ -38,4 +38,5 @@ const ProfileSchema = new Schema({
     }
   }
 });
+ProfileSchema.plugin(findOrCreate);
 module.exports = mongoose.model("Profile", ProfileSchema);
