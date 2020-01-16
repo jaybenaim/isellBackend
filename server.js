@@ -9,6 +9,7 @@ const User = require("./Models/User.js");
 const jwt = require("jsonwebtoken");
 const cookieParser = require("cookie-parser");
 const withAuth = require("./Middleware/auth");
+const Profile = require("./Models/Profile");
 
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 require("dotenv").config({
@@ -47,6 +48,26 @@ app.get("/api/", async (req, res) => {
 });
 app.get("/api/checkToken", withAuth, async (req, res) => {
   res.status(200).send("Authorized");
+});
+app.post("/api/profiles", withAuth, async (req, res) => {
+  const newProfile = new Profile(req.body);
+  newProfile.save(err => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).send(newProfile);
+  });
+});
+
+app.patch("/api/profiles/:id/update", async (req, res) => {
+  Profile.findByIdAndUpdate(
+    req.params.ProfileId,
+    req.params.ProfileId,
+    req.body,
+    { new: true },
+    (err, profile) => {
+      if (err) return res.status(500).send(err);
+      return res.send(profile);
+    }
+  );
 });
 
 app.post("/api/register", (req, res) => {
