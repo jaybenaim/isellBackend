@@ -19,7 +19,7 @@ mongoose.set("useCreateIndex", true);
 
 mongoose.connect(
   process.env.DB_CONNECTION,
-  { useNewUrlParser: true, useUnifiedTopology: true },
+  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
   err => {
     if (err) {
       throw err;
@@ -38,38 +38,61 @@ app.use(
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.get("/", async (req, res) => {
+app.get("/", (req, res) => {
   res.send("HOME");
   console.log("led");
 });
 
-app.get("/api/", async (req, res) => {
+app.get("/api/", (req, res) => {
   res.send("API HOME");
 });
-app.get("/api/checkToken", withAuth, async (req, res) => {
+app.get("/api/checkToken", withAuth, (req, res) => {
   res.status(200).send("Authorized");
 });
-app.post("/api/profiles", withAuth, async (req, res) => {
+
+app.post("/api/profiles", (req, res) => {
   const newProfile = new Profile(req.body);
   newProfile.save(err => {
     if (err) return res.status(500).send(err);
     return res.status(200).send(newProfile);
   });
 });
+app.get("/api/profiles", (req, res) => {
+  Profile.find((err, profile) => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).send(profile);
+  });
+});
+app.get("/api/profiles/:id", (req, res) => {
+  Profile.findOne({ _id: req.params.id }, (err, profile) => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).send(profile);
+  });
+});
+app.patch("/api/profiles/:id", (req, res) => {
+  console.log(req.params);
 
-app.patch("/api/profiles/:id/update", async (req, res) => {
   Profile.findByIdAndUpdate(
-    req.params.ProfileId,
-    req.params.ProfileId,
+    req.params.id,
     req.body,
     { new: true },
+
     (err, profile) => {
       if (err) return res.status(500).send(err);
       return res.send(profile);
     }
   );
 });
-
+app.delete("/api/profiles/:id", (req, res) => {
+  Profile.findByIdAndRemove(req.params.id, (err, profile) => {
+    if (err) return res.status(500).send(err);
+    const response = {
+      message: "Profile deleted successfully",
+      id: profile._id
+    };
+    return res.status(200).send(response);
+  });
+});
 app.post("/api/register", (req, res) => {
   const { email, password } = req.body;
   const user = new User({ email, password });
