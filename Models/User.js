@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+const findOrCreate = require("mongoose-findorcreate");
 
 const saltRounds = 10;
 
@@ -34,4 +35,5 @@ UserSchema.methods.isCorrectPassword = function(password, callback) {
   });
 };
 
+UserSchema.plugin(findOrCreate);
 module.exports = mongoose.model("User", UserSchema);

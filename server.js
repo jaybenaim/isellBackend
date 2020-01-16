@@ -59,15 +59,11 @@ app.get("/api/profiles", (req, res) => {
 app.post("/api/profiles", (req, res) => {
   Profile.findOrCreate(req.body, (err, profile) => {
     if (err) {
-      const results = {
-        err,
-        status: "failed"
-      };
-      return res.status(500).send(results);
+      return res.status(500).send(err);
     } else {
       const results = {
         profile,
-        status: "success"
+        status: "Successfully created profile."
       };
       return res.status(200).send(results);
     }
@@ -104,15 +100,18 @@ app.delete("/api/profiles/:id", (req, res) => {
     return res.status(200).send(response);
   });
 });
+app.get("/api/users", withAuth, (req, res) => {
+  User.find((err, user) => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).send(user);
+  });
+});
 app.post("/api/register", (req, res) => {
-  const { email, password } = req.body;
-  const user = new User({ email, password });
-  user.save(err => {
+  User.findOrCreate(req.body, (err, user) => {
     if (err) {
-      console.log(err);
-      res.status(500).send(`Error registering new user, please try again.`);
+      return res.status(500).send(err);
     } else {
-      res.status(200).send("Thanks for signing up!");
+      return res.status(200).send({ user_id: user.id });
     }
   });
 });
