@@ -31,7 +31,6 @@ const ProfileSchema = new Schema({
       required: false
     }
   },
-
   user: {
     id: {
       type: Schema.Types.ObjectId,
