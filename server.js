@@ -104,8 +104,6 @@ app.get("/api/users", withAuth, (req, res) => {
   });
 });
 app.post("/api/signup", (req, res) => {
-  let newProfile = [];
-
   User.findOrCreate(req.body, (err, user) => {
     if (err) {
       return res.status(500).send(err);
