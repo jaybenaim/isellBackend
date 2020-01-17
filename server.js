@@ -77,8 +77,6 @@ app.get("/api/profiles/:id", (req, res) => {
   });
 });
 app.patch("/api/profiles/:id", (req, res) => {
-  console.log(req.params);
-
   Profile.findByIdAndUpdate(
     req.params.id,
     req.body,
@@ -94,8 +92,7 @@ app.delete("/api/profiles/:id", (req, res) => {
   Profile.findByIdAndRemove(req.params.id, (err, profile) => {
     if (err) return res.status(500).send(err);
     const response = {
-      message: "Profile deleted successfully",
-      id: profile._id
+      message: "Profile deleted successfully"
     };
     return res.status(200).send(response);
   });
@@ -106,12 +103,23 @@ app.get("/api/users", withAuth, (req, res) => {
     return res.status(200).send(user);
   });
 });
-app.post("/api/register", (req, res) => {
+app.post("/api/signup", (req, res) => {
+  let newProfile = [];
+
   User.findOrCreate(req.body, (err, user) => {
     if (err) {
       return res.status(500).send(err);
     } else {
-      return res.status(200).send({ user_id: user.id });
+      Profile.findOrCreate({ username: req.body.email }, (err, profile) => {
+        if (err) {
+          return res.status(500).send(err);
+        } else {
+          return res.status(200).send({
+            userId: user.id,
+            profile
+          });
+        }
+      });
     }
   });
 });
