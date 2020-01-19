@@ -3,7 +3,7 @@ const router = express.Router();
 const User = require("../Models/User");
 const Profile = require("../Models/Profile");
 const withAuth = require("../Middleware/auth");
-
+const jwt = require("jsonwebtoken");
 router.get("/users", withAuth, (req, res) => {
   User.find((err, user) => {
     if (err) return res.status(500).send(err);
