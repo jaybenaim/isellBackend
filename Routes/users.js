@@ -4,7 +4,8 @@ const User = require("../Models/User");
 const Profile = require("../Models/Profile");
 const withAuth = require("../Middleware/auth");
 const jwt = require("jsonwebtoken");
-router.get("/users", withAuth, (req, res) => {
+
+router.get("/users", (req, res) => {
   User.find((err, user) => {
     if (err) return res.status(500).send(err);
     return res.status(200).send(user);

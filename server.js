@@ -8,6 +8,8 @@ const withAuth = require("./Middleware/auth");
 const profiles = require("./Routes/profiles");
 const users = require("./Routes/users");
 const stripe = require("./Routes/stripe");
+const products = require("./Routes/products");
+const carts = require("./Routes/carts");
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 require("dotenv").config({
   debug: process.env.DB_CONNECTION
@@ -38,6 +40,8 @@ app.use(cookieParser());
 app.use("/api/profiles", profiles);
 app.use("/api", users);
 app.use("/stripe", stripe);
+app.use("/api/products", products);
+app.use("/api/carts", carts);
 
 app.get("/", (req, res) => {
   res.send("HOME");
