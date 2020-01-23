@@ -10,6 +10,12 @@ router.get("/", (req, res) => {
     return res.status(200).send(product);
   });
 });
+router.post("/", (req, res) => {
+  Product.findOrCreate(req.body, (err, product) => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).send(product);
+  });
+});
 router.get("/:id", (req, res) => {
   Product.findOne({ _id: req.params.id }, (err, product) => {
     if (err) return res.status(500).send(err);

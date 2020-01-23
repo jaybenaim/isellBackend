@@ -17,6 +17,7 @@ router.get("/:id", (req, res) => {
     return res.status(200).send(cart);
   });
 });
+
 router.post("/", (req, res) => {
   Cart.findOrCreate(req.body, (err, cart) => {
     if (err) {
@@ -26,29 +27,22 @@ router.post("/", (req, res) => {
     }
   });
 });
-// add products to cart
-router.post("/:id/products", (req, res) => {
-  // Product.findOrCreate(req.body, (err, product) => {
-  //   if (err) return res.status(500).send(err);
-  //   return res.status(200).send(product);
-  // });
-  Cart.findById(req.params.id, (err, cart) => {
-    if (err) {
-      return res.status(500).send(err);
-    } else {
-      Product.findOrCreate(req.body.products, (err, product) => {
-        if (err) {
-          return res.status(500).send(err);
-        } else {
-          product.save();
-          cart.products.push(product);
-          cart.save();
-          return res.status(200).send(cart);
-        }
-      });
+// add or remove item from cart
+router.patch("/:id", (req, res) => {
+  Cart.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+
+    (err, updatedCart) => {
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        res.status(200).send(updatedCart);
+      }
     }
-  });
+  );
 });
+
 router.delete("/:id", (req, res) => {
   Cart.findByIdAndRemove(req.params.id, (err, profile) => {
     if (err) return res.status(500).send(err);
