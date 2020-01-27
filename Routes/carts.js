@@ -19,7 +19,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  Cart.findOrCreate(req.body, (err, cart) => {
+  Cart.findOrCreate({}, req.body, (err, cart) => {
     if (err) {
       return res.status(500).send(err);
     } else {
@@ -37,7 +37,7 @@ router.patch("/:id", (req, res) => {
       if (err) {
         return res.status(500).send(err);
       } else {
-        res.status(200).send(updatedCart);
+        return res.status(200).send(updatedCart);
       }
     }
   );
