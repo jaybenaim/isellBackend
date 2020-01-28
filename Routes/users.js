@@ -22,7 +22,7 @@ router.post("/signup", (req, res) => {
           return res.status(500).send(err);
         } else {
           return res.status(200).send({
-            userId: user.id,
+            userId: user._id,
             profile
           });
         }
@@ -64,7 +64,7 @@ router.post("/authenticate", (req, res) => {
           const token = jwt.sign(payload, process.env.SECRET, {
             expiresIn: "1h"
           });
-          res.json({ token: token });
+          res.json({ token: token, id: user._id });
         }
       });
     }
