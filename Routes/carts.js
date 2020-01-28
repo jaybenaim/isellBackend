@@ -23,24 +23,44 @@ router.post("/", (req, res) => {
     if (err) {
       return res.status(500).send(err);
     } else {
+      console.log(req.body);
       return res.status(200).send(cart);
     }
   });
 });
 // add or remove item from cart
 router.patch("/:id", (req, res) => {
-  Cart.findByIdAndUpdate(
-    req.params.id,
-    req.body,
+  // console.log(req.body);
+  Cart.findByIdAndUpdate(req.params.id, req.body, (err, updatedCart) => {
+    if (err) {
+      return res.status(500).send(err);
+    } else {
+      console.log(req.body);
+      const { products } = req.body;
+      updatedCart.user.id = req.body.user.id;
+      updatedCart.products = products.map(product => {
+        Product.findOrCreate({}, req.body, (err, product) => {
+          if (err) {
+            return res.status(500).send(err);
+          } else {
+            console.log(product);
+            return product.id;
+            // console.log(updatedCart)
+          }
+        });
+      });
+      updatedCart.save(err => {
+        if (err) {
+          return res.status(500).send(err);
+        } else {
+          console.log(updatedCart);
+        }
+      });
+      ///// /// // get product
 
-    (err, updatedCart) => {
-      if (err) {
-        return res.status(500).send(err);
-      } else {
-        return res.status(200).send(updatedCart);
-      }
+      return res.status(200).send(updatedCart);
     }
-  );
+  });
 });
 
 router.delete("/:id", (req, res) => {
