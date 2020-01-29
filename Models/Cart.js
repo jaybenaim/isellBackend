@@ -4,7 +4,6 @@ const findOrCreate = require("mongoose-findorcreate");
 const Schema = mongoose.Schema;
 
 const CartSchema = new Schema({
-  createdAt: { type: Date, default: Date.now },
   user: {
     id: {
       type: Schema.Types.ObjectId,

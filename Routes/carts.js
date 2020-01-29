@@ -22,7 +22,7 @@ router.get("/:id", (req, res) => {
 
 // find cart from user id
 router.get("/find/:id", (req, res) => {
-  Cart.findOrCreate({ user: { id: req.params.id } }, (err, cart) => {
+  Cart.findOne({ "user.id": req.params.id }, (err, cart) => {
     if (err) {
       return res.status(500).send(err);
     } else {
@@ -38,48 +38,52 @@ router.post("/", (req, res) => {
     if (err) return res.status(500).send(err);
     return res.status(200).send(newCart);
   });
-  // Cart.findOrCreate({}, req.body, (err, cart) => {
-  //   if (err) {
-  //     return res.status(500).send(err);
-  //   } else {
-  //     console.log(req.body, cart);
-  //     return res.status(200).send(cart);
-  //   }
-  // });
 });
+
 // add or remove item from cart
 router.patch("/:id", (req, res) => {
   // console.log(req.body);
-  Cart.findByIdAndUpdate(req.params.id, req.body, (err, updatedCart) => {
-    if (err) {
-      return res.status(500).send(err);
-    } else {
-      console.log(req.body);
-      const { products } = req.body;
-      updatedCart.user.id = req.body.user.id;
-      updatedCart.products = products.map(product => {
-        Product.findOrCreate({}, req.body, (err, product) => {
+  Cart.findByIdAndUpdate(
+    req.params.id,
+    req.body,
+    { new: true },
+    (err, updatedCart) => {
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        const { products } = req.body;
+        updatedCart.user.id = req.body.user.id;
+
+        products.map(product => {
+          Product.findOrCreate(
+            { _id: product },
+
+            { new: true },
+            (err, updatedProduct) => {
+              if (err) {
+                return res.status(500).send(err);
+              } else {
+                console.log(updatedProduct);
+                updatedCart.products.push(updatedProduct);
+              }
+            }
+          );
+        });
+
+        console.log("products: ", updatedCart.products);
+        updatedCart.save(err => {
           if (err) {
             return res.status(500).send(err);
           } else {
-            console.log(product);
-            return product.id;
-            // console.log(updatedCart)
+            console.log(updatedCart);
           }
         });
-      });
-      updatedCart.save(err => {
-        if (err) {
-          return res.status(500).send(err);
-        } else {
-          console.log(updatedCart);
-        }
-      });
-      ///// /// // get product
+        ///// /// // get product
 
-      return res.status(200).send(updatedCart);
+        return res.status(200).send(updatedCart);
+      }
     }
-  });
+  );
 });
 
 router.delete("/:id", (req, res) => {
