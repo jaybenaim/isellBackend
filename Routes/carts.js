@@ -22,14 +22,16 @@ router.get("/:id", (req, res) => {
 
 // find cart from user id
 router.get("/find/:id", (req, res) => {
-  Cart.findOne({ "user.id": req.params.id }, (err, cart) => {
-    if (err) {
-      return res.status(500).send(err);
-    } else {
-      console.log(cart);
-      return res.status(200).send(cart);
-    }
-  });
+  Cart.findOne({ "user.id": req.params.id })
+    .populate("products")
+    .exec((err, cart) => {
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        console.log(cart);
+        return res.status(200).send(cart);
+      }
+    });
 });
 
 router.post("/", (req, res) => {
