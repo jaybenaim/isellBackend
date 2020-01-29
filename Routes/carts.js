@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
     return res.status(200).send(cart);
   });
 });
+
 router.get("/:id", (req, res) => {
   Cart.findOne({ _id: req.params.id }, (err, cart) => {
     if (err) return res.status(500).send(err);
@@ -19,14 +20,19 @@ router.get("/:id", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  Cart.findOrCreate({}, req.body, (err, cart) => {
-    if (err) {
-      return res.status(500).send(err);
-    } else {
-      console.log(req.body);
-      return res.status(200).send(cart);
-    }
+  const newCart = new Cart(req.body);
+  newCart.save(err => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).send(newCart);
   });
+  // Cart.findOrCreate({}, req.body, (err, cart) => {
+  //   if (err) {
+  //     return res.status(500).send(err);
+  //   } else {
+  //     console.log(req.body, cart);
+  //     return res.status(200).send(cart);
+  //   }
+  // });
 });
 // add or remove item from cart
 router.patch("/:id", (req, res) => {
