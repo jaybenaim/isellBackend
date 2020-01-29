@@ -12,10 +12,23 @@ router.get("/", (req, res) => {
   });
 });
 
+// find cart from id
 router.get("/:id", (req, res) => {
   Cart.findOne({ _id: req.params.id }, (err, cart) => {
     if (err) return res.status(500).send(err);
     return res.status(200).send(cart);
+  });
+});
+
+// find cart from user id
+router.get("/find/:id", (req, res) => {
+  Cart.findOrCreate({ user: { id: req.params.id } }, (err, cart) => {
+    if (err) {
+      return res.status(500).send(err);
+    } else {
+      console.log(cart);
+      return res.status(200).send(cart);
+    }
   });
 });
 
