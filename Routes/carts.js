@@ -43,52 +43,35 @@ router.post("/", (req, res) => {
   });
 });
 
-// add or remove item from cart
+// add item to cart
+// router.patch("/:id", (req, res) => {
+//   Cart.findByIdAndUpdate(
+//     req.params.id,
+//     req.body,
+//     { new: true },
+//     (err, updatedCart) => {
+//       if (err) {
+//         return res.status(500).send(err);
+//       } else {
+//         updatedCart.save(err => {
+//           if (err) {
+//             return res.status(500).send(err);
+//           } else {
+//             console.log(updatedCart);
+//           }
+//         });
+//         return res.status(200).send(updatedCart);
+//       }
+//     }
+//   );
+// });
 router.patch("/:id", (req, res) => {
-  // console.log(req.body);
-  Cart.findByIdAndUpdate(
-    req.params.id,
-    req.body,
-    { new: true },
-    (err, updatedCart) => {
-      if (err) {
-        return res.status(500).send(err);
-      } else {
-        const { products } = req.body;
-
-        products.map(product => {
-          Product.findOrCreate(
-            { _id: product },
-
-            { new: true },
-            (err, updatedProduct) => {
-              if (err) {
-                return res.status(500).send(err);
-              } else {
-                console.log(
-                  "UPDATED PRODUCT:> ",
-                  updatedProduct,
-                  "<:UPDATED PRODTUC END"
-                );
-                updatedCart.products.push(updatedProduct);
-              }
-            }
-          );
-        });
-
-        updatedCart.save(err => {
-          if (err) {
-            return res.status(500).send(err);
-          } else {
-            console.log(updatedCart);
-          }
-        });
-        ///// /// // get product
-
-        return res.status(200).send(updatedCart);
-      }
-    }
-  );
+  Cart.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    .populate("products")
+    .exec((err, updatedCart) => {
+      if (err) return res.status(500).send(err);
+      return res.status(200).send(updatedCart);
+    });
 });
 
 router.delete("/:id", (req, res) => {
