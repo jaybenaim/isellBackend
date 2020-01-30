@@ -23,7 +23,8 @@ router.get("/:id", (req, res) => {
 // find cart from user id
 router.get("/find/:id", (req, res) => {
   Cart.findOne({ "user.id": req.params.id })
-    .populate("products")
+    .populate("products ", "-__v")
+    .select("-__v")
     .exec((err, cart) => {
       if (err) {
         return res.status(500).send(err);
@@ -54,7 +55,6 @@ router.patch("/:id", (req, res) => {
         return res.status(500).send(err);
       } else {
         const { products } = req.body;
-        updatedCart.user.id = req.body.user.id;
 
         products.map(product => {
           Product.findOrCreate(
@@ -65,14 +65,17 @@ router.patch("/:id", (req, res) => {
               if (err) {
                 return res.status(500).send(err);
               } else {
-                console.log(updatedProduct);
+                console.log(
+                  "UPDATED PRODUCT:> ",
+                  updatedProduct,
+                  "<:UPDATED PRODTUC END"
+                );
                 updatedCart.products.push(updatedProduct);
               }
             }
           );
         });
 
-        console.log("products: ", updatedCart.products);
         updatedCart.save(err => {
           if (err) {
             return res.status(500).send(err);
