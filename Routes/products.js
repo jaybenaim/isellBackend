@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const mongoose = require("mongoose");
 
 const Product = require("../Models/Product");
 
@@ -40,7 +39,7 @@ router.delete("/:id", (req, res) => {
   Product.findByIdAndRemove(req.params.id, (err, product) => {
     if (err) return res.status(500).send(err);
     const response = {
-      message: "Profile deleted successfully"
+      message: "Product deleted successfully"
     };
     return res.status(200).send(response);
   });
