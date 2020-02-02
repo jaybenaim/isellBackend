@@ -10,7 +10,9 @@ const users = require("./Routes/users");
 const stripe = require("./Routes/stripe");
 const products = require("./Routes/products");
 const carts = require("./Routes/carts");
-app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
+app.use(
+  cors({ credentials: true, origin: "https://jaybenaim.github.io/isell/" })
+);
 require("dotenv").config({
   debug: process.env.DB_CONNECTION
 });
