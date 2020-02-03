@@ -1,6 +1,6 @@
-const express = require("./node_modules/express");
+const express = require("express");
 const router = express.Router();
-const Cart = require("../models/Cart");
+const Cart = require("../Models/Cart");
 
 router.get("/", (req, res) => {
   console.log("found me");

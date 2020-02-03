@@ -1,7 +1,7 @@
-const express = require("./node_modules/express");
+const express = require("express");
 const router = express.Router();
 const stripe = require("stripe")("sk_test_59y42s9amXyOuAPudcbNBta500g0JElmda");
-const cors = require("./node_modules/cors");
+const cors = require("cors");
 router.use(cors({ origin: "https://jaybenaim.github.io/isell/" }));
 
 router.post("/charge", cors(), async (req, res) => {

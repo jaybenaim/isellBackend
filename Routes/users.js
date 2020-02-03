@@ -1,9 +1,9 @@
-const express = require("./node_modules/express");
+const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
-const Profile = require("../models/Profile");
+const User = require("../Models/User");
+const Profile = require("../Models/Profile");
 const withAuth = require("../Middleware/auth");
-const jwt = require("./node_modules/jsonwebtoken");
+const jwt = require("jsonwebtoken");
 
 router.get("/users", (req, res) => {
   User.find((err, user) => {
