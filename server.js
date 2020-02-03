@@ -40,23 +40,10 @@ app.use(
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use("/api/profiles", profiles);
-app.use("/api", users);
 app.use("/stripe", stripe);
+app.use("/api", users);
+app.use("/api/profiles", profiles);
 app.use("/api/products", products);
-// app.use("/api/carts", carts);
-
-app.get("/api/carts", (req, res) => {
-  res.send("hello");
-});
-app.get("/", (req, res) => {
-  res.send("HOME");
-});
-app.get("/api/", (req, res) => {
-  res.send("API HOME");
-});
-app.get("/checkToken", withAuth, (req, res) => {
-  res.status(200).send("Authorized");
-});
+app.use("/api/carts", carts);
 
 app.listen(process.env.PORT || 5000);
