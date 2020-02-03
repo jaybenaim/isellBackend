@@ -22,10 +22,10 @@ mongoose.connect(
   process.env.DB_CONNECTION,
   { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
   err => {
-    if (err) {
-      throw err;
-    } else {
+    try {
       console.log(`Successfully connected to db`);
+    } catch {
+      console.log(err);
     }
   }
 );
