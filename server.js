@@ -10,7 +10,7 @@ const users = require("./Routes/users");
 const stripe = require("./Routes/stripe");
 const products = require("./Routes/products");
 const carts = require("./Routes/carts");
-const Cart = require("../Models/Cart");
+const Cart = require("./Models/Cart");
 
 app.use(
   cors({ credentials: true, origin: "https://jaybenaim.github.io/isell/" })
