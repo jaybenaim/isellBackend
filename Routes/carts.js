@@ -6,7 +6,8 @@ router.get("/", (req, res) => {
   console.log("found me");
   Cart.find((err, cart) => {
     try {
-      return res.status(200).send(cart);
+      res.send(cart);
+      // return res.status(200).send(cart);
     } catch {
       return res.status(500).send(err);
     }
