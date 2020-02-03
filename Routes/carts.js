@@ -3,9 +3,9 @@ const router = express.Router();
 const Cart = require("../Models/Cart");
 
 router.get("/", (req, res) => {
-  console.log(Cart);
   Cart.find((err, cart) => {
     try {
+      console.log(cart);
       return res.status(200).send(cart);
     } catch {
       return res.status(500).send(err);
