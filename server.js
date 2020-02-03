@@ -44,7 +44,7 @@ app.use("/api/profiles", profiles);
 app.use("/api", users);
 app.use("/stripe", stripe);
 app.use("/api/products", products);
-app.use("/api/carts", carts);
+// app.use("/api/carts", carts);
 
 app.get("/api/carts", (req, res) => {
   res.send("hello");
