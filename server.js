@@ -19,8 +19,9 @@ require("dotenv").config({
   debug: process.env.DB_CONNECTION
 });
 mongoose.set("useCreateIndex", true);
+const mongoDB = process.env.MONGODB_URI || process.env.DB_CONNECTION;
 mongoose.connect(
-  process.env.DB_CONNECTION,
+  mongoDB,
   { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
   err => {
     try {
@@ -45,5 +46,15 @@ app.use("/api", users);
 app.use("/api/profiles", profiles);
 app.use("/api/products", products);
 app.use("/api/carts", carts);
+
+app.get("/", (req, res) => {
+  res.send("HOME");
+});
+app.get("/api/", (req, res) => {
+  res.send("API HOME");
+});
+app.get("/checkToken", withAuth, (req, res) => {
+  res.status(200).send("Authorized");
+});
 
 app.listen(process.env.PORT || 5000);
