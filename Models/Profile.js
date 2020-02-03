@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const findOrCreate = require("mongoose-findorcreate");
+const findOrCreate = require("./node_modules/mongoose-findorcreate");
 
 const Schema = mongoose.Schema;
 

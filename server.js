@@ -5,12 +5,12 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const withAuth = require("./Middleware/auth");
-const profiles = require("./Routes/profiles");
-const users = require("./Routes/users");
-const stripe = require("./Routes/stripe");
-const products = require("./Routes/products");
-const carts = require("./Routes/carts");
-const Cart = require("./Models/Cart");
+const profiles = require("./routes/profiles");
+const users = require("./routes/users");
+const stripe = require("./routes/stripe");
+const products = require("./routes/products");
+const carts = require("./routes/carts");
+const Cart = require("./models/Cart");
 
 app.use(
   cors({ credentials: true, origin: "https://jaybenaim.github.io/isell/" })
