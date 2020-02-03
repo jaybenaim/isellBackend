@@ -5,12 +5,12 @@ const mongoose = require("mongoose");
 const Product = require("../Models/Product");
 const Cart = require("../Models/Cart");
 
-router.get("/", (req, res) => {
-  Cart.find((err, cart) => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).send(cart);
-  });
-});
+// router.get("/", (req, res) => {
+//   Cart.find((err, cart) => {
+//     if (err) return res.status(500).send(err);
+//     return res.status(200).send(cart);
+//   });
+// });
 
 // find cart from id
 router.get("/:id", (req, res) => {

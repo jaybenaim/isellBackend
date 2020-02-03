@@ -1,5 +1,3 @@
-"use strict";
-
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
@@ -45,7 +43,13 @@ app.use("/api/profiles", profiles);
 app.use("/api", users);
 app.use("/stripe", stripe);
 app.use("/api/products", products);
-app.use("/api/carts", carts);
+// app.use("/api/carts", carts);
+app.get("/api/carts", (req, res) => {
+  Cart.find((err, cart) => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).send(cart);
+  });
+});
 
 app.get("/", (req, res) => {
   res.send("HOME");
