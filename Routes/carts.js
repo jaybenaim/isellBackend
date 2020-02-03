@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const app = express();
 const Cart = require("../Models/Cart");
 
-router.get("/", (req, res) => {
+app.get("/", (req, res) => {
   Cart.find((err, cart) => {
     console.log(cart);
     if (err) return res.status(500).send(err);
