@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Profile = require("../Models/Profile");
+const Profile = require("../models/Profile");
 
 router.get("/", (req, res) => {
   Profile.find((err, profile) => {
