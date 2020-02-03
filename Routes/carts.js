@@ -5,8 +5,11 @@ const Cart = require("../Models/Cart");
 router.get("/", (req, res) => {
   console.log("found me");
   Cart.find((err, cart) => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).send(cart);
+    try {
+      return res.status(200).send(cart);
+    } catch {
+      return res.status(500).send(err);
+    }
   });
 });
 
