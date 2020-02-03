@@ -3,13 +3,12 @@ const router = express.Router();
 const Cart = require("../Models/Cart");
 
 router.get("/", (req, res) => {
-  console.log("found me");
+  console.log(Cart);
   Cart.find((err, cart) => {
     try {
-      res.send(cart);
-      // return res.status(200).send(cart);
+      return res.status(200).send(cart);
     } catch {
-      res.status(500).send(err);
+      return res.status(500).send(err);
     }
   });
 });
