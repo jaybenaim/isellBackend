@@ -19,7 +19,6 @@ require("dotenv").config({
   debug: process.env.DB_CONNECTION
 });
 mongoose.set("useCreateIndex", true);
-console.log(process.env.DB_CONNECTION);
 mongoose.connect(
   process.env.DB_CONNECTION,
   { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
@@ -45,13 +44,7 @@ app.use("/api/profiles", profiles);
 app.use("/api", users);
 app.use("/stripe", stripe);
 app.use("/api/products", products);
-// app.use("/api/carts", carts);
-app.get("/api/carts", (req, res) => {
-  Cart.find((err, cart) => {
-    if (err) return res.status(500).send(err);
-    return res.status(200).send(cart);
-  });
-});
+app.use("/api/carts", carts);
 
 app.get("/", (req, res) => {
   res.send("HOME");
