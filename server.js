@@ -48,12 +48,11 @@ app.use("/api/carts", carts);
 
 app.get("/", (req, res) => {
   res.send("HOME");
-  console.log("led");
 });
 app.get("/api/", (req, res) => {
   res.send("API HOME");
 });
-app.get("/api/checkToken", withAuth, (req, res) => {
+app.get("/checkToken", withAuth, (req, res) => {
   res.status(200).send("Authorized");
 });
 

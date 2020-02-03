@@ -4,6 +4,7 @@ const Cart = require("../Models/Cart");
 
 router.get("/", (req, res) => {
   Cart.find((err, cart) => {
+    console.log(cart);
     if (err) return res.status(500).send(err);
     return res.status(200).send(cart);
   });
