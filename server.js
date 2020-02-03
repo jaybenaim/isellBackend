@@ -19,7 +19,7 @@ require("dotenv").config({
   debug: process.env.DB_CONNECTION
 });
 mongoose.set("useCreateIndex", true);
-
+console.log(process.env.DB_CONNECTION);
 mongoose.connect(
   process.env.DB_CONNECTION,
   { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
