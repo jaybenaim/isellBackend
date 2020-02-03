@@ -4,10 +4,10 @@ const Cart = require("../models/Cart");
 
 router.get("/", (req, res) => {
   console.log("found me");
-  // Cart.find((err, cart) => {
-  //   if (err) return res.status(500).send(err);
-  //   return res.status(200).send(cart);
-  // });
+  Cart.find((err, cart) => {
+    if (err) return res.status(500).send(err);
+    return res.status(200).send(cart);
+  });
 });
 
 // find cart from id
