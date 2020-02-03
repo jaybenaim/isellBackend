@@ -20,9 +20,11 @@ require("dotenv").config({
 });
 var options = {
   useNewUrlParser: true,
-  useFindAndModify: false
+  useFindAndModify: false,
+  reconnectTries: 30,
+  reconnectInterval: 500,
+  useCreateIndex: true
 };
-mongoose.set("useCreateIndex", true);
 const mongoDB = process.env.MONGODB_URI || process.env.DB_CONNECTION;
 mongoose.connect(mongoDB, options, err => {
   try {
