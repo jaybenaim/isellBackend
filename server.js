@@ -18,19 +18,20 @@ app.use(
 require("dotenv").config({
   debug: process.env.DB_CONNECTION
 });
+var options = {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false
+};
 mongoose.set("useCreateIndex", true);
 const mongoDB = process.env.MONGODB_URI || process.env.DB_CONNECTION;
-mongoose.connect(
-  mongoDB,
-  { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false },
-  err => {
-    try {
-      console.log(`Successfully connected to db`);
-    } catch {
-      console.log(err);
-    }
+mongoose.connect(mongoDB, options, err => {
+  try {
+    console.log(`Successfully connected to db`);
+  } catch {
+    console.log(err);
   }
-);
+});
 
 app.use(cors());
 app.use(
