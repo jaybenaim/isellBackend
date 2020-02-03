@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
       res.send(cart);
       // return res.status(200).send(cart);
     } catch {
-      return res.status(500).send(err);
+      res.status(500).send(err);
     }
   });
 });
