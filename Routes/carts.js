@@ -8,6 +8,7 @@ router.get("/", (req, res) => {
       console.log(cart);
       return res.status(200).send(cart);
     } catch {
+      console.log(Cart);
       return res.status(500).send(err);
     }
   });
