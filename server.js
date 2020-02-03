@@ -20,7 +20,6 @@ require("dotenv").config({
 });
 var options = {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
   useFindAndModify: false
 };
 mongoose.set("useCreateIndex", true);
