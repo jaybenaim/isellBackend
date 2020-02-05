@@ -21,8 +21,7 @@ require("dotenv").config({
 var options = {
   useNewUrlParser: true,
   useFindAndModify: false,
-  reconnectTries: 30,
-  reconnectInterval: 500,
+  useUnifiedTopology: true,
   useCreateIndex: true
 };
 const mongoDB = process.env.MONGODB_URI || process.env.DB_CONNECTION;
