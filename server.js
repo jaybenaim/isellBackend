@@ -19,13 +19,13 @@ require("dotenv").config({
 var options = {
   useNewUrlParser: true,
   useFindAndModify: false,
-  useUnifiedTopology: true,
+  // useUnifiedTopology: true,
   useCreateIndex: true
 };
 const mongoDB = process.env.MONGODB_URI || process.env.DB_CONNECTION;
 mongoose.connect(mongoDB, options, err => {
   try {
-    console.log(`Successfully connected to db`);
+    console.log(`Successfully connected to db `);
   } catch {
     console.log(err);
   }
