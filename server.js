@@ -24,12 +24,15 @@ var options = {
 };
 const uri = process.env.MONGODB_URI || process.env.DB_CONNECTION;
 mongoose.connect(uri, options, err => {
-  try {
-    console.log(`Successfully connected to db `);
-  } catch {
-    console.log(err);
-  }
+  if (err) console.log(err);
+  return console.log("Connected to DB");
 });
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
+// db.on("error", err => {
+//   console.error(`MongoDB connection error: ${err}`);
+//   process.exit(-1); // eslint-disable-line no-process-exit
+// });
 
 // const MongoClient = require("mongodb").MongoClient;
 
@@ -68,8 +71,5 @@ app.get("/api/", (req, res) => {
 app.get("/checkToken", withAuth, (req, res) => {
   res.status(200).send("Authorized");
 });
-mongoose.connection.on("error", err => {
-  console.error(`MongoDB connection error: ${err}`);
-  process.exit(-1); // eslint-disable-line no-process-exit
-});
+
 app.listen(process.env.PORT || 5000);
