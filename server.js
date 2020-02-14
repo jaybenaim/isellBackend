@@ -13,31 +13,36 @@ const carts = require("./Routes/carts");
 const Cart = require("./Models/Cart");
 
 app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
-// require("dotenv").config({
-//   debug: process.env.DB_CONNECTION
-// });
+require("dotenv").config({
+  debug: process.env.DB_CONNECTION
+});
 var options = {
   useNewUrlParser: true,
   useFindAndModify: false,
+  useUnifiedTopology: true,
   useCreateIndex: true
 };
 const uri = process.env.MONGODB_URI || process.env.DB_CONNECTION;
-// mongoose.connect(mongoDB, options, err => {
-//   try {
-//     console.log(`Successfully connected to db `);
-//   } catch {
-//     console.log(err);
-//   }
-// });
-
-const MongoClient = require("mongodb").MongoClient;
-
-const client = new MongoClient(uri, options);
-client.connect(err => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
+mongoose.connect(uri, options, err => {
+  try {
+    console.log(`Successfully connected to db `);
+  } catch {
+    console.log(err);
+  }
 });
+
+// const MongoClient = require("mongodb").MongoClient;
+
+// const client = new MongoClient(uri, options);
+// client.connect(err => {
+//   if (err) {
+//     console.log(err);
+//   } else {
+//     const collection = client.db("test").collection("devices");
+//   }
+//   // perform actions on the collection object
+//   client.close();
+// });
 
 app.use(cors());
 app.use(
