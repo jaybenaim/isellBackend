@@ -19,7 +19,6 @@ app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 var options = {
   useNewUrlParser: true,
   useFindAndModify: false,
-  useUnifiedTopology: true,
   useCreateIndex: true
 };
 const uri = process.env.MONGODB_URI || process.env.DB_CONNECTION;
