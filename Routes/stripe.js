@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const stripe = require("stripe")("sk_test_59y42s9amXyOuAPudcbNBta500g0JElmda");
 const cors = require("cors");
-router.use(cors({ origin: "http://localhost:3000" }));
+router.use(cors({ origin: "https://jaybenaim.github.io" }));
 
 router.post("/charge", cors(), async (req, res) => {
   try {
