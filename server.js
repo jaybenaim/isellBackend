@@ -55,5 +55,8 @@ app.get("/api/", (req, res) => {
 app.get("/checkToken", withAuth, (req, res) => {
   res.status(200).send("Authorized");
 });
-
+mongoose.connection.on("error", err => {
+  console.error(`MongoDB connection error: ${err}`);
+  process.exit(-1); // eslint-disable-line no-process-exit
+});
 app.listen(process.env.PORT || 5000);

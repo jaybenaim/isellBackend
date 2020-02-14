@@ -13,7 +13,8 @@ router.get("/", (req, res, next) => {
       }
     });
   } catch {
-    next();
+    console.log(err);
+    return res.status(500).send(err);
   }
 });
 // catch(next)
