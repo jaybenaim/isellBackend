@@ -22,7 +22,7 @@ var options = {
   useUnifiedTopology: false,
   useCreateIndex: true
 };
-const uri = process.env.MONGODB_URI;
+const uri = process.env.MONGODB_URI || process.env.DB_CONNECTION;
 mongoose.connect(uri, options, err => {
   if (err) console.log(err);
   return console.log("Connected to DB");
