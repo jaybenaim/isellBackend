@@ -19,7 +19,7 @@ require("dotenv").config({
 var options = {
   useNewUrlParser: true,
   useFindAndModify: false,
-  useUnifiedTopology: true,
+  useUnifiedTopology: false,
   useCreateIndex: true
 };
 const uri = process.env.MONGODB_URI || process.env.DB_CONNECTION;
