@@ -40,23 +40,6 @@ mongoose.connect(uri, options, err => {
 });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
-// db.on("error", err => {
-//   console.error(`MongoDB connection error: ${err}`);
-//   process.exit(-1); // eslint-disable-line no-process-exit
-// });
-
-// const MongoClient = require("mongodb").MongoClient;
-
-// const client = new MongoClient(uri, options);
-// client.connect(err => {
-//   if (err) {
-//     console.log(err);
-//   } else {
-//     const collection = client.db("test").collection("devices");
-//   }
-//   // perform actions on the collection object
-//   client.close();
-// });
 
 app.use(cors());
 app.use(
@@ -67,7 +50,7 @@ app.use(
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.use("/stripe", stripe);
+app.use("/api/stripe", stripe);
 app.use("/api", users);
 app.use("/api/profiles", profiles);
 app.use("/api/products", products);
