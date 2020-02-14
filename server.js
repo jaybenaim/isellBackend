@@ -22,14 +22,24 @@ var options = {
   useUnifiedTopology: true,
   useCreateIndex: true
 };
-const mongoDB = process.env.MONGODB_URI || process.env.DB_CONNECTION;
-mongoose.connect(mongoDB, options, err => {
-  try {
-    console.log(`Successfully connected to db `);
-  } catch {
-    console.log(err);
-  }
+const uri = process.env.MONGODB_URI || process.env.DB_CONNECTION;
+// mongoose.connect(mongoDB, options, err => {
+//   try {
+//     console.log(`Successfully connected to db `);
+//   } catch {
+//     console.log(err);
+//   }
+// });
+
+const MongoClient = require("mongodb").MongoClient;
+
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
 });
+
 app.use(cors());
 app.use(
   bodyParser.urlencoded({
