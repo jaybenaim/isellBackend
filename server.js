@@ -19,7 +19,7 @@ require("dotenv").config({
 var options = {
   useNewUrlParser: true,
   useFindAndModify: false,
-  // useUnifiedTopology: true,
+  useUnifiedTopology: true,
   useCreateIndex: true
 };
 const mongoDB = process.env.MONGODB_URI || process.env.DB_CONNECTION;
@@ -30,7 +30,6 @@ mongoose.connect(mongoDB, options, err => {
     console.log(err);
   }
 });
-
 app.use(cors());
 app.use(
   bodyParser.urlencoded({
