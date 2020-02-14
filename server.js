@@ -33,7 +33,7 @@ const uri = process.env.MONGODB_URI || process.env.DB_CONNECTION;
 
 const MongoClient = require("mongodb").MongoClient;
 
-const client = new MongoClient(uri, { useNewUrlParser: true });
+const client = new MongoClient(uri, options);
 client.connect(err => {
   const collection = client.db("test").collection("devices");
   // perform actions on the collection object
