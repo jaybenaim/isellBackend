@@ -2,16 +2,21 @@ const express = require("express");
 const router = express.Router();
 const Cart = require("../Models/Cart");
 
-router.get("/", (req, res) => {
-  Cart.find((err, cart) => {
-    try {
-      return res.send(cart);
-    } catch {
-      console.log(err);
-      return res.status(500).send(err);
-    }
-  });
+router.get("/", (req, res, next) => {
+  try {
+    Cart.find((err, cart) => {
+      try {
+        return res.send(cart);
+      } catch {
+        console.log(err);
+        return res.status(500).send(err);
+      }
+    });
+  } catch {
+    next();
+  }
 });
+// catch(next)
 
 // find cart from id
 router.get("/:id", (req, res) => {
