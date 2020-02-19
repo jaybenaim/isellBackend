@@ -14,7 +14,6 @@ router.get("/", (req, res, next) => {
   }
 });
 // catch(next)
-
 // find cart from id
 router.get("/:id", (req, res) => {
   Cart.findOne({ _id: req.params.id }, (err, cart) => {
