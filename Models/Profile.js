@@ -26,7 +26,7 @@ const ProfileSchema = new Schema({
   shippingInfo: {
     name: { type: String, required: false },
     street: { type: String, required: false },
-    addressType: { type: String, required: true, enum: addressTypeArr },
+    addressType: { type: String, required: false, enum: addressTypeArr },
     suite: { type: String, required: false },
     city: { type: String, required: false },
     province: { type: String, required: false, enum: provinceArr },
