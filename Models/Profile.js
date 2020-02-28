@@ -25,7 +25,7 @@ const ProfileSchema = new Schema({
     name: { type: String, required: false },
     street: { type: String, required: false },
     city: { type: String, required: false },
-    provence: { type: String, required: false, enum: provenceArr },
+    province: { type: String, required: false, enum: provinceArr },
     postalCode: {
       type: String,
       required: false
