@@ -3,7 +3,7 @@ const findOrCreate = require("mongoose-findorcreate");
 
 const Schema = mongoose.Schema;
 
-const provenceArr = [
+const provinceArr = [
   "AB",
   "BC",
   "MB",
