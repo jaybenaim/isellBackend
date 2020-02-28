@@ -12,7 +12,11 @@ const products = require("./Routes/products");
 const carts = require("./Routes/carts");
 const Cart = require("./Models/Cart");
 
-const whitelist = ["https://jaybenaim.github.io", "http://localhost:3000"];
+const whitelist = [
+  "https://jaybenaim.github.io",
+  "http://localhost:3000",
+  "http://localhost:5000"
+];
 const corsOptions = {
   credentials: true,
   origin: function(origin, callback) {
