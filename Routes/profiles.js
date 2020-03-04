@@ -22,7 +22,19 @@ router.post("/", (req, res) => {
     }
   });
 });
-
+// find cart from user id
+router.get("/find/:id", (req, res) => {
+  Profile.find({ "user.id": req.params.id })
+    .populate("users")
+    .select("-__v")
+    .exec((err, cart) => {
+      if (err) {
+        return res.status(500).send(err);
+      } else {
+        return res.status(200).send(cart);
+      }
+    });
+});
 router.get("/:id", (req, res) => {
   Profile.findOne({ _id: req.params.id }, (err, profile) => {
     if (err) return res.status(500).send(err);

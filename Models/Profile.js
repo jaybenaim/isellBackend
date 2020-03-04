@@ -23,6 +23,7 @@ const addressTypeArr = ["House", "Apartment", "Business", "Hotel", "Other"];
 const ProfileSchema = new Schema({
   createdAt: { type: Date, default: Date.now },
   username: String,
+  // convert into seperate model
   shippingInfo: {
     name: { type: String, required: false },
     street: { type: String, required: false },
