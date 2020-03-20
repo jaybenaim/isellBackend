@@ -25,13 +25,13 @@ router.get("/:id", (req, res) => {
 });
 
 router.patch("/:id", (req, res) => {
+  console.log(req.body);
   ShippingInfo.findByIdAndUpdate(req.params.id, req.body, {
     new: true
   })
-    .populate("name")
+
     .select("-__v")
     .exec((err, address) => {
-      address.save();
       return err ? res.status(500).send(err) : res.status(200).send(address);
     });
 });
