@@ -47,28 +47,25 @@ router.get("/:id", (req, res) => {
     return res.status(200).send(profile);
   });
 });
+
 router.patch("/:id", (req, res) => {
-  Profile.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    .populate("shippingInfo")
-    .select("-__v")
-    .exec((err, profile) => {
-      if (err) {
-        return res.status(500).send(err);
-      } else {
-        ShippingInfo.findOrCreate(req.body.shippingInfo, (err, info) => {
-          if (err) {
-            return res.status(500).send(err);
-          } else {
-            profile.shippingInfo.push(info);
-            const results = {
-              profile,
-              status: "Successfully created profile."
-            };
-            return res.status(200).send(results);
-          }
-        });
-      }
-    });
+  const { shippingInfo } = req.body;
+  Profile.findByIdAndUpdate(
+    { _id: req.params.id },
+    { new: true },
+    (err, profile) => {
+      // this way list needs to be altered and passed through front-end
+
+      const addresses = shippingInfo.map(i => new ShippingInfo(i));
+      profile.shippingInfo = [...addresses];
+      profile.save();
+      const results = {
+        profile,
+        status: "Successfully created profile."
+      };
+      return err ? res.status(500).send(err) : res.status(200).send(results);
+    }
+  );
 });
 
 router.delete("/:id", (req, res) => {
