@@ -29,14 +29,10 @@ router.patch("/:id", (req, res) => {
     new: true,
     upsert: true
   })
+    .populate("")
     .select("-__v")
     .exec((err, address) => {
-      if (err) {
-        res.status(500).send(err);
-      } else {
-        res.status(200).send(address);
-      }
-      // return err ? res.status(500).send(err) : res.status(200).send(address);
+      return err ? res.status(500).send(err) : res.status(200).send(address);
     });
 });
 
