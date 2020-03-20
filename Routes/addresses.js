@@ -25,10 +25,9 @@ router.get("/:id", (req, res) => {
 });
 
 router.patch("/:id", (req, res) => {
-  ShippingInfo.findByIdAndUpdate({ _id: req.params.id }, req.body, {
+  ShippingInfo.findByIdAndUpdate(req.params.id, req.body, {
     new: true
   })
-    .populate("")
     .select("-__v")
     .exec((err, address) => {
       return err ? res.status(500).send(err) : res.status(200).send(address);
