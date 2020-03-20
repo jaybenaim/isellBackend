@@ -38,9 +38,11 @@ router.patch("/:id", (req, res) => {
   Profile.findByIdAndUpdate({ _id: req.params.id }, { new: true })
     .select("-__v")
     .exec((err, profile) => {
-      const addresses = shippingInfo.map(i => new ShippingInfo(i));
-      profile.shippingInfo = [...addresses];
-      profile.save();
+      if (shippingInfo) {
+        const addresses = shippingInfo.map(i => new ShippingInfo(i));
+        profile.shippingInfo = [...addresses];
+        profile.save();
+      }
       const results = {
         profile,
         message: "Successfully updated profile."
