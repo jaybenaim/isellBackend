@@ -30,6 +30,7 @@ router.patch("/:id", (req, res) => {
   })
     .select("-__v")
     .exec((err, address) => {
+      address.save();
       return err ? res.status(500).send(err) : res.status(200).send(address);
     });
 });
