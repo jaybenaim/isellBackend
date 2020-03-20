@@ -21,13 +21,13 @@ const corsOptions = {
   credentials: true,
   origin: function(origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
+      app.use(cors(corsOptions));
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
   }
 };
-// app.use(cors(corsOptions));
 require("dotenv").config({
   debug: process.env.DB_CONNECTION
 });

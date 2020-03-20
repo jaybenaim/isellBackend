@@ -13,7 +13,7 @@ router.post("/", (req, res) => {
   Profile.findOrCreate(req.body, (err, profile) => {
     const results = {
       profile,
-      status: "Successfully created profile."
+      message: "Successfully created profile."
     };
     return err ? res.status(500).send(err) : res.status(200).send(results);
   });
@@ -35,20 +35,18 @@ router.get("/:id", (req, res) => {
 
 router.patch("/:id", (req, res) => {
   const { shippingInfo } = req.body;
-  Profile.findByIdAndUpdate(
-    { _id: req.params.id },
-    { new: true },
-    (err, profile) => {
+  Profile.findByIdAndUpdate({ _id: req.params.id }, { new: true })
+    .select("-__v")
+    .exec((err, profile) => {
       const addresses = shippingInfo.map(i => new ShippingInfo(i));
       profile.shippingInfo = [...addresses];
       profile.save();
       const results = {
         profile,
-        status: "Successfully created profile."
+        message: "Successfully updated profile."
       };
       return err ? res.status(500).send(err) : res.status(200).send(results);
-    }
-  );
+    });
 });
 
 router.delete("/:id", (req, res) => {
