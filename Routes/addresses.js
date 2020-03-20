@@ -28,6 +28,7 @@ router.patch("/:id", (req, res) => {
   ShippingInfo.findByIdAndUpdate(req.params.id, req.body, {
     new: true
   })
+    .populate("name")
     .select("-__v")
     .exec((err, address) => {
       address.save();
