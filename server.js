@@ -27,7 +27,7 @@ const corsOptions = {
     }
   }
 };
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 require("dotenv").config({
   debug: process.env.DB_CONNECTION
 });
