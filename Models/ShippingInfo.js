@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const findOrCreate = require("mongoose-findorcreate");
-const ShippingInfo = require("./ShippingInfo");
 
 const Schema = mongoose.Schema;
 
@@ -33,19 +32,5 @@ const ShippingInfoSchema = new Schema({
     required: false
   }
 });
-const ProfileSchema = new Schema({
-  createdAt: { type: Date, default: Date.now },
-  username: String,
-  shippingInfo: {
-    type: [ShippingInfoSchema],
-    default: []
-  },
-  user: {
-    id: {
-      type: Schema.Types.ObjectId,
-      ref: "User"
-    }
-  }
-});
-ProfileSchema.plugin(findOrCreate);
-module.exports = mongoose.model("Profile", ProfileSchema);
+ShippingInfoSchema.plugin(findOrCreate);
+module.exports = mongoose.model("ShippingInfoSchema", ShippingInfoSchema);
