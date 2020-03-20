@@ -30,6 +30,12 @@ const ShippingInfoSchema = new Schema({
   postalCode: {
     type: String,
     required: false
+  },
+  profile: {
+    id: {
+      type: Schema.Types.ObjectId,
+      ref: "Profile"
+    }
   }
 });
 ShippingInfoSchema.plugin(findOrCreate);

@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   Profile.findOrCreate(req.body, (err, profile) => {
+    if (profile.shippingInfo) profile.shippingInfo.profile = profile._id;
     const results = {
       profile,
       message: "Successfully created profile."
@@ -18,13 +19,13 @@ router.post("/", (req, res) => {
     return err ? res.status(500).send(err) : res.status(200).send(results);
   });
 });
-// find cart from user id
+// find profile from user id
 router.get("/find/:id", (req, res) => {
   Profile.find({ "user.id": req.params.id })
     .populate("users")
     .select("-__v")
     .exec((err, cart) => {
-      return err ? res.status(500).send(err) : res.status(200).send(cart);
+      return err ? res.status(500).send(err) : res.status(200).send(cart[0]);
     });
 });
 router.get("/:id", (req, res) => {
@@ -35,24 +36,28 @@ router.get("/:id", (req, res) => {
 
 router.patch("/:id", (req, res) => {
   const { shippingInfo } = req.body;
-  Profile.findByIdAndUpdate({ _id: req.params.id }, { new: true })
-    .select("-__v")
-    .exec((err, profile) => {
-      if (shippingInfo) {
-        const newInfo = shippingInfo.map(i => {
-          return new ShippingInfo(i);
-        });
-        profile.shippingInfo = newInfo;
-        profile.save();
-      }
-      const results = {
-        profile,
-        message: "Successfully updated profile."
-      };
-      return err ? res.status(500).send(err) : res.status(200).send(results);
-    });
-});
 
+  Profile.findByIdAndUpdate(req.params.id, req.body, {
+    new: true
+  }).exec((err, profile) => {
+    if (err) {
+      return res.status(500).send(err);
+    } else {
+      ShippingInfo.find({ "profile.id": profile.id }).exec((err, info) => {
+        if (err) {
+          return res.status(500).send(err);
+        } else {
+          profile.shippingInfo = info;
+
+          profile.save((err, results) => {
+            if (err) return res.send(err);
+            return res.status(200).send(results);
+          });
+        }
+      });
+    }
+  });
+});
 router.delete("/:id", (req, res) => {
   Profile.findByIdAndRemove(req.params.id, (err, profile) => {
     const response = {

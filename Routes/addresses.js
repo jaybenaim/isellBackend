@@ -9,15 +9,22 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  ShippingInfo.findOrCreate(req.body, (err, address) => {
-    const results = {
-      Address,
-      message: "Successfully created Address."
-    };
-    return err ? res.status(500).send(err) : res.status(200).send(results);
+  const { shippingInfo, profile } = req.body;
+  const info = new ShippingInfo({ ...shippingInfo, profile });
+
+  info.save((err, address) => {
+    if (err) return res.status(500).send(err);
+    res.status(200).send(address);
   });
 });
-
+// find addresses from profile id
+router.get("/find/:id", (req, res) => {
+  ShippingInfo.find({ "profile.id": req.params.id })
+    .select("-__v")
+    .exec((err, address) => {
+      return err ? res.status(500).send(err) : res.status(200).send(address);
+    });
+});
 router.get("/:id", (req, res) => {
   ShippingInfo.findOne({ _id: req.params.id }, (err, address) => {
     return err ? res.status(500).send(err) : res.status(200).send(address);
@@ -26,10 +33,9 @@ router.get("/:id", (req, res) => {
 
 router.patch("/:id", (req, res) => {
   console.log(req.body);
-  ShippingInfo.findByIdAndUpdate(req.params.id, req.body, {
+  ShippingInfo.findByIdAndUpdate(req.params.id, req.body.data, {
     new: true
   })
-
     .select("-__v")
     .exec((err, address) => {
       return err ? res.status(500).send(err) : res.status(200).send(address);
@@ -37,7 +43,7 @@ router.patch("/:id", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-  Address.findByIdAndRemove(req.params.id, (err, address) => {
+  ShippingInfo.findByIdAndRemove(req.params.id, (err, address) => {
     const response = {
       message: "Address deleted successfully"
     };
