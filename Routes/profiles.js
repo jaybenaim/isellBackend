@@ -39,8 +39,10 @@ router.patch("/:id", (req, res) => {
     .select("-__v")
     .exec((err, profile) => {
       if (shippingInfo) {
-        // const addresses = shippingInfo.map(i => new ShippingInfo(i));
-        profile.shippingInfo = shippingInfo;
+        const newInfo = shippingInfo.map(i => {
+          return new ShippingInfo(i);
+        });
+        profile.shippingInfo = newInfo;
         profile.save();
       }
       const results = {
