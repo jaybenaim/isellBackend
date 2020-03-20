@@ -10,7 +10,7 @@ const users = require("./Routes/users");
 const stripe = require("./Routes/stripe");
 const products = require("./Routes/products");
 const carts = require("./Routes/carts");
-const Cart = require("./Models/Cart");
+const addresses = require("./Routes/addresses");
 
 const whitelist = [
   "https://jaybenaim.github.io",
@@ -59,6 +59,7 @@ app.use("/api", users);
 app.use("/api/profiles", profiles);
 app.use("/api/products", products);
 app.use("/api/carts", carts);
+app.use("/api/addresses", addresses);
 
 app.get("/", (req, res) => {
   res.send("HOME");
