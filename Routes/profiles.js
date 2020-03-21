@@ -19,6 +19,7 @@ router.post("/", (req, res) => {
     return err ? res.status(500).send(err) : res.status(200).send(results);
   });
 });
+
 // find profile from user id
 router.get("/find/:id", (req, res) => {
   Profile.find({ "user.id": req.params.id })
