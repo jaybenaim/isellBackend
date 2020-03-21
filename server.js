@@ -27,9 +27,8 @@ const corsOptions = {
     }
   }
 };
-if (app.settings.env === "production") {
-  app.use(cors(corsOptions));
-}
+
+app.use(cors(corsOptions));
 require("dotenv").config({
   debug: process.env.DB_CONNECTION
 });
