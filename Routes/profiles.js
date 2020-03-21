@@ -27,7 +27,7 @@ router.get("/find/:id", (req, res) => {
   )
     .populate("shippingInfo")
     .exec((err, profile) => {
-      return res.status(200).send(profile);
+      return err ? res.status(500).send(err) : res.status(200).send(profile);
     });
 });
 
