@@ -43,13 +43,9 @@ router.get("/:id", (req, res) => {
 
 router.patch("/:id", (req, res) => {
   console.log(req.body);
-  ShippingInfo.findByIdAndUpdate(req.params.id, req.body.data, {
-    new: true
-  })
-    .select("-__v")
-    .exec((err, address) => {
-      return err ? res.status(500).send(err) : res.status(200).send(address);
-    });
+  ShippingInfo.findByIdAndUpdate(req.params.id, req.body, (err, address) => {
+    return err ? res.status(500).send(err) : res.status(200).send(address);
+  });
 });
 
 router.delete("/:id", (req, res) => {
