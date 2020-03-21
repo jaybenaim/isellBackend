@@ -23,7 +23,7 @@ router.post("/", (req, res) => {
 router.get("/find/:id", (req, res) => {
   Profile.findByIdAndUpdate(
     { "user.id": req.params.id },
-    { user: { id: req.params.id } }
+    { user: { _id: req.params.id } }
   )
     .populate("shippingInfo")
     .exec((err, profile) => {
@@ -39,7 +39,6 @@ router.get("/:id", (req, res) => {
 
 router.patch("/:id", (req, res) => {
   const { shippingInfo } = req.body;
-
   Profile.findByIdAndUpdate(req.params.id, req.body, {
     new: true
   }).exec((err, profile) => {

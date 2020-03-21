@@ -22,7 +22,7 @@ router.post("/", (req, res) => {
       return res.status(500).send(err);
     });
 });
-// find addresses from profile id
+// find addresses from user id
 router.get("/find/:id", (req, res) => {
   const results = [];
   ShippingInfo.find({ "user.id": req.params.id }).exec((err, info) => {
