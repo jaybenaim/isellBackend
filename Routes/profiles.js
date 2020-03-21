@@ -23,10 +23,11 @@ router.post("/", (req, res) => {
 router.get("/find/:id", (req, res) => {
   Profile.findOrCreate(
     { "user.id": req.params.id },
-    { "user.id": req.params.id }
-  ).exec((err, profile) => {
-    return err ? res.status(500).send(err) : res.status(200).send(profile);
-  });
+    { "user.id": req.params.id },
+    (err, profile) => {
+      return err ? res.status(500).send(err) : res.status(200).send(profile);
+    }
+  );
 });
 router.get("/:id", (req, res) => {
   Profile.findOne({ _id: req.params.id }, (err, profile) => {
