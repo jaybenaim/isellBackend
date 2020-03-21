@@ -25,7 +25,17 @@ router.get("/find/:id", (req, res) => {
     { "user.id": req.params.id },
     { "user.id": req.params.id },
     (err, profile) => {
-      return err ? res.status(500).send(err) : res.status(200).send(profile);
+      const results = [];
+      ShippingInfo.find({ "user.id": req.params.id }).exec((err, info) => {
+        if (err) {
+          return res.status(500).send(err);
+        } else {
+          results.push(info);
+          profile.shippingInfo = results;
+          profile.save();
+          return res.status(200).send(profile);
+        }
+      });
     }
   );
 });

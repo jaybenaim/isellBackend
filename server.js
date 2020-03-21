@@ -15,7 +15,8 @@ const addresses = require("./Routes/addresses");
 const whitelist = [
   "https://jaybenaim.github.io",
   "http://localhost:3000",
-  "http://localhost:5000"
+  "http://localhost:5000",
+  "0.0.0.1"
 ];
 const corsOptions = {
   credentials: true,
@@ -27,7 +28,7 @@ const corsOptions = {
     }
   }
 };
-// app.use(cors(corsOptions));
+app.use(cors(corsOptions));
 require("dotenv").config({
   debug: process.env.DB_CONNECTION
 });
