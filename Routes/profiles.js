@@ -11,7 +11,6 @@ router.get("/", (req, res) => {
 
 router.post("/", (req, res) => {
   Profile.findOrCreate(req.body, (err, profile) => {
-    if (profile.shippingInfo) profile.shippingInfo.profile = profile._id;
     const results = {
       profile,
       message: "Successfully created profile."
@@ -22,12 +21,9 @@ router.post("/", (req, res) => {
 
 // find profile from user id
 router.get("/find/:id", (req, res) => {
-  Profile.find({ "user.id": req.params.id })
-    .populate("users")
-    .select("-__v")
-    .exec((err, cart) => {
-      return err ? res.status(500).send(err) : res.status(200).send(cart[0]);
-    });
+  Profile.findOne({ "user.id": req.params.id }).exec((err, profile) => {
+    return err ? res.status(500).send(err) : res.status(200).send(profile);
+  });
 });
 router.get("/:id", (req, res) => {
   Profile.findOne({ _id: req.params.id }, (err, profile) => {

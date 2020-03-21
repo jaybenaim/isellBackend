@@ -31,10 +31,10 @@ const ShippingInfoSchema = new Schema({
     type: String,
     required: false
   },
-  profile: {
+  user: {
     id: {
       type: Schema.Types.ObjectId,
-      ref: "Profile"
+      ref: "User"
     }
   }
 });

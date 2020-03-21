@@ -9,22 +9,31 @@ router.get("/", (req, res) => {
 });
 
 router.post("/", (req, res) => {
-  const { shippingInfo, profile } = req.body;
-  const info = new ShippingInfo({ ...shippingInfo, profile });
+  const { shippingInfo, user } = req.body;
+  const info = new ShippingInfo({ ...shippingInfo, user });
 
-  info.save((err, address) => {
-    if (err) return res.status(500).send(err);
-    res.status(200).send(address);
-  });
+  info
+    .save()
+    .then(address => {
+      return res.status(200).send(address);
+    })
+    .catch(err => {
+      return res.status(500).send(err);
+    });
 });
 // find addresses from profile id
 router.get("/find/:id", (req, res) => {
-  ShippingInfo.find({ "profile.id": req.params.id })
-    .select("-__v")
-    .exec((err, address) => {
-      return err ? res.status(500).send(err) : res.status(200).send(address);
-    });
+  const results = [];
+  ShippingInfo.find({ "user.id": req.params.id }).exec((err, info) => {
+    if (err) {
+      return res.status(500).send(err);
+    } else {
+      results.push(info);
+      return res.status(200).send(results);
+    }
+  });
 });
+
 router.get("/:id", (req, res) => {
   ShippingInfo.findOne({ _id: req.params.id }, (err, address) => {
     return err ? res.status(500).send(err) : res.status(200).send(address);
