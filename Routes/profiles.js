@@ -21,10 +21,12 @@ router.post("/", (req, res) => {
 
 // find profile from user id
 router.get("/find/:id", (req, res) => {
-  Profile.findOrCreate(
+  Profile.findByIdAndUpdate(
     { "user.id": req.params.id },
-    { "user.id": req.params.id },
-    (err, profile) => {
+    { "user.id": req.params.id }
+  )
+    .populate("shippingInfo")
+    .exec((err, profile) => {
       const results = [];
       ShippingInfo.find({ "user.id": req.params.id }).exec((err, info) => {
         if (err) {
@@ -36,8 +38,7 @@ router.get("/find/:id", (req, res) => {
           return res.status(200).send(profile);
         }
       });
-    }
-  );
+    });
 });
 
 router.get("/:id", (req, res) => {
