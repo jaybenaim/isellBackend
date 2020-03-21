@@ -29,7 +29,7 @@ const corsOptions = {
 };
 
 app.use(cors(corsOptions));
-
+console.log(app.settings.env);
 require("dotenv").config({
   debug: process.env.DB_CONNECTION
 });
