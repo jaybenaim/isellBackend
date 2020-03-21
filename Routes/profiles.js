@@ -22,8 +22,8 @@ router.post("/", (req, res) => {
 // find profile from user id
 router.get("/find/:id", (req, res) => {
   Profile.findByIdAndUpdate(
-    { "user._id": req.params.id },
-    { "user._id": req.params.id }
+    { "user.id": req.params.id },
+    { user: { id: req.params.id } }
   )
     .populate("shippingInfo")
     .exec((err, profile) => {
