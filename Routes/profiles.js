@@ -29,6 +29,7 @@ router.get("/find/:id", (req, res) => {
     }
   );
 });
+
 router.get("/:id", (req, res) => {
   Profile.findOne({ _id: req.params.id }, (err, profile) => {
     return err ? res.status(500).send(err) : res.status(200).send(profile);

@@ -14,8 +14,9 @@ router.post("/", (req, res) => {
 
   info
     .save()
-    .then(address => {
-      return res.status(200).send(address);
+    .then(response => {
+      console.log(response);
+      return res.status(200).send(info);
     })
     .catch(err => {
       return res.status(500).send(err);
