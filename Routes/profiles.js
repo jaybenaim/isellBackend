@@ -21,15 +21,11 @@ router.post("/", (req, res) => {
 
 // find profile from user id
 router.get("/find/:id", (req, res) => {
-  Profile.findByIdAndUpdate(
-    { "user.id": req.params.id },
-    { user: { id: req.params.id } },
-    { upsert: true }
-  )
-    .populate("shippingInfo")
-    .exec((err, profile) => {
-      return err ? res.status(500).send(err) : res.status(200).send(profile);
-    });
+  Profile.findOrCreate({ user: { id: req.params.id } })
+    .then(response => {
+      return res.status(200).send(response.doc);
+    })
+    .catch(err => res.status(500).send(err));
 });
 
 router.get("/:id", (req, res) => {
