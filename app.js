@@ -20,9 +20,9 @@ require("dotenv").config({
 app.use(logger("dev"));
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404));
-});
+// app.use((req, res, next) => {
+//   next(createError(404));
+// });
 
 const whitelist = [
   "https://jaybenaim.github.io",
@@ -82,7 +82,7 @@ app.get("/checkToken", withAuth, (req, res) => {
 });
 
 // TODO Web Template Studio: Add your own error handler here.
-if (process.env.NODE_ENV === "production") {
+if (app.settings.env === "production") {
   // Do not send stack trace of error message when in production
   app.use((err, req, res, next) => {
     res.status(err.status || 500);
@@ -96,5 +96,4 @@ if (process.env.NODE_ENV === "production") {
     res.send(err.message);
   });
 }
-
 module.exports = app;
