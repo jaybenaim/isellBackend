@@ -1,16 +1,28 @@
-const express = require("express");
-const app = express();
-const bodyParser = require("body-parser");
-const cors = require("cors");
-const mongoose = require("mongoose");
+const addresses = require("./Routes/addresses");
 const cookieParser = require("cookie-parser");
 const withAuth = require("./Middleware/auth");
 const profiles = require("./Routes/profiles");
-const users = require("./Routes/users");
-const stripe = require("./Routes/stripe");
 const products = require("./Routes/products");
+const stripe = require("./Routes/stripe");
+const createError = require("http-errors");
+const bodyParser = require("body-parser");
 const carts = require("./Routes/carts");
-const addresses = require("./Routes/addresses");
+const users = require("./Routes/users");
+const mongoose = require("mongoose");
+const express = require("express");
+const logger = require("morgan");
+const cors = require("cors");
+const app = express();
+require("dotenv").config({
+  debug: process.env.DB_CONNECTION
+});
+
+app.use(logger("dev"));
+
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  next(createError(404));
+});
 
 const whitelist = [
   "https://jaybenaim.github.io",
@@ -27,16 +39,14 @@ const corsOptions = {
     }
   }
 };
-require("dotenv").config({
-  debug: process.env.DB_CONNECTION
-});
+
 var options = {
   useNewUrlParser: true,
   useFindAndModify: false,
   useUnifiedTopology: false,
   useCreateIndex: true
 };
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
 
 const uri = process.env.MONGODB_URI || process.env.DB_CONNECTION;
 mongoose.connect(uri, options, err => {
@@ -71,4 +81,20 @@ app.get("/checkToken", withAuth, (req, res) => {
   res.status(200).send("Authorized");
 });
 
-app.listen(process.env.PORT || 5000);
+// TODO Web Template Studio: Add your own error handler here.
+if (process.env.NODE_ENV === "production") {
+  // Do not send stack trace of error message when in production
+  app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    res.send("Error occurred while handling the request.");
+  });
+} else {
+  // Log stack trace of error message while in development
+  app.use((err, req, res, next) => {
+    res.status(err.status || 500);
+    console.log(err);
+    res.send(err.message);
+  });
+}
+
+module.exports = app;
