@@ -20,15 +20,9 @@ require("dotenv").config({
 app.use(logger("dev"));
 
 // catch 404 and forward to error handler
-<<<<<<< HEAD
-app.use((req, res, next) => {
-  next(createError(404));
-});
-=======
 // app.use((req, res, next) => {
 //   next(createError(404));
 // });
->>>>>>> addMorgan
 
 const whitelist = [
   "https://jaybenaim.github.io",

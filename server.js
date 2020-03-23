@@ -76,54 +76,6 @@ function onError(error) {
     default:
       throw error;
   }
-<<<<<<< HEAD
-};
-require("dotenv").config({
-  debug: process.env.DB_CONNECTION
-});
-var options = {
-  useNewUrlParser: true,
-  useFindAndModify: false,
-  useUnifiedTopology: false,
-  useCreateIndex: true
-};
-app.use(cors(corsOptions));
-
-const uri = process.env.MONGODB_URI || process.env.DB_CONNECTION;
-mongoose.connect(uri, options, err => {
-  if (err) console.log(err);
-  return console.log("Connected to DB");
-});
-const db = mongoose.connection;
-db.on("error", console.error.bind(console, "MongoDB connection error:"));
-
-app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
-);
-app.use(bodyParser.json());
-app.use(cookieParser());
-
-app.use("/api/stripe", stripe);
-app.use("/api", users);
-app.use("/api/profiles", profiles);
-app.use("/api/products", products);
-app.use("/api/carts", carts);
-app.use("/api/addresses", addresses);
-
-app.get("/", (req, res) => {
-  res.send("HOME");
-});
-app.get("/api/", (req, res) => {
-  res.send("API HOME");
-});
-app.get("/checkToken", withAuth, (req, res) => {
-  res.status(200).send("Authorized");
-});
-
-app.listen(process.env.PORT || 5000);
-=======
 }
 
 /**
@@ -135,4 +87,3 @@ function onListening() {
   const bind = typeof addr === "string" ? `pipe ${addr}` : `port ${addr.port}`;
   debug(`Listening on ${bind}`);
 }
->>>>>>> addMorgan
