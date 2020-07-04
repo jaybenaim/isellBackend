@@ -14,7 +14,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const app = express();
 require("dotenv").config({
-  debug: process.env.DB_CONNECTION
+  debug: process.env.DB_CONNECTION,
 });
 
 app.use(logger("dev"));
@@ -27,29 +27,29 @@ app.use(logger("dev"));
 const whitelist = [
   "https://jaybenaim.github.io",
   "http://localhost:3000",
-  "http://localhost:5000"
+  "http://localhost:5000",
 ];
 const corsOptions = {
   credentials: true,
-  origin: function(origin, callback) {
+  origin: function (origin, callback) {
     if (whitelist.indexOf(origin) !== -1) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
     }
-  }
+  },
 };
 
 var options = {
   useNewUrlParser: true,
   useFindAndModify: false,
   useUnifiedTopology: false,
-  useCreateIndex: true
+  useCreateIndex: true,
 };
-app.use(cors(corsOptions));
+app.use(cors());
 
 const uri = process.env.MONGODB_URI || process.env.DB_CONNECTION;
-mongoose.connect(uri, options, err => {
+mongoose.connect(uri, options, (err) => {
   if (err) console.log(err);
   return console.log("Connected to DB");
 });
@@ -58,7 +58,7 @@ db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 app.use(
   bodyParser.urlencoded({
-    extended: true
+    extended: true,
   })
 );
 app.use(bodyParser.json());
